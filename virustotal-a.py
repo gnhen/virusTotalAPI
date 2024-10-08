@@ -11,13 +11,30 @@ def load_api_key():
     config_file = os.path.join(
         os.getenv("APPDATA"), "VirusTotal Scanner", "config.json"
     )
-    if os.path.exists(config_file):
-        with open(config_file) as f:
-            config = json.load(f)
-        return config.get("api_key")
-    else:
-        print("API key not found. Please set it in config.json.")
-        sys.exit(1)
+
+    # If the config.json file does not exist, create it with a placeholder
+    if not os.path.exists(config_file):
+        default_config = {"api_key": "YOUR_API_KEY_HERE"}
+        with open(config_file, "w") as f:
+            json.dump(default_config, f, indent=4)
+
+    # Load the configuration
+    with open(config_file, "r") as f:
+        config = json.load(f)
+
+    # Check if the API key is the placeholder and prompt the user to enter their API key
+    if config.get("api_key") == "YOUR_API_KEY_HERE":
+        print("API key not found. Please enter your VirusTotal API key.")
+        api_key = input("Enter your API key: ").strip()
+
+        # Update the config.json file with the provided API key
+        config["api_key"] = api_key
+        with open(config_file, "w") as f:
+            json.dump(config, f, indent=4)
+
+        print("API key saved successfully.")
+
+    return config.get("api_key")
 
 
 # Assign API_KEY
