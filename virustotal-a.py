@@ -7,7 +7,9 @@ import json
 
 
 def load_api_key():
-    config_file = os.path.join(os.getenv('APPDATA'), 'VirusTotal Scanner', 'config.json')
+    config_file = os.path.join(
+        os.getenv("APPDATA"), "VirusTotal Scanner", "config.json"
+    )
     if os.path.exists(config_file):
         with open(config_file) as f:
             config = json.load(f)
@@ -15,6 +17,7 @@ def load_api_key():
     else:
         print("API key not found. Please set it in config.json.")
         return None
+
 
 API_KEY = load_api_key()
 
@@ -111,6 +114,12 @@ def scan_file(file_path):
             print(f"API error: {e}")
         except Exception as e:
             print(f"Error during file scan: {e}")
+
+
+while True:
+    exit_key = input("Press 'Q' to exit: ").strip().lower()
+    if exit_key == "q":
+        break
 
 
 if __name__ == "__main__":
