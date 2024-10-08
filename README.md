@@ -7,4 +7,4 @@ Check Releases for files
 
 FOR INSTALLER
 
-Once installed, make sure to add your API key in the %appdata% folder
+Once installed, make sure to add your API key. It will request this in the first run of the program
